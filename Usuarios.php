@@ -3,6 +3,63 @@
 include_once "DBConexion.php";
 class Usuarios extends DBConexion
 {
+    private $id;
+    private $username;
+    private $password;
+    private $nombres;
+    private $apellidos;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function setUsername($username): void
+    {
+        $this->username = $username;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function setPassword($password): void
+    {
+        $this->password = $password;
+    }
+
+    public function getNombres()
+    {
+        return $this->nombres;
+    }
+
+    public function setNombres($nombres): void
+    {
+        $this->nombres = $nombres;
+    }
+
+    public function getApellidos()
+    {
+        return $this->apellidos;
+    }
+
+    public function setApellidos($apellidos): void
+    {
+        $this->apellidos = $apellidos;
+    }
+
+
     public function mostrarUsuarios1(){
             //opcion 1: fetch_all()
             $myConn = $this->conexion();
