@@ -36,7 +36,20 @@
         }
         ?>
     ><br>
-    <input type="submit" name="guardar" value="guardar">
+    <?php
+        if(isset($_POST["actualizar"])){
+            echo "<input type='hidden' name='id' value='".$datosUsuario["id"]."'>";
+        }
+    ?>
+    <input type="submit"
+        <?php
+        if(isset($_POST["actualizar"])){
+            echo "name='actualizar2' value='Actualizar'";
+        }else{
+            echo "name='guardar' value='guardar'";
+        }
+        ?>
+    >
 </form>
 <?php
 echo "<table border='1'>" .
@@ -89,6 +102,19 @@ if(isset($_POST["guardar"])){
         header("location: index.php");
     }else{
         echo "<h3 style='color: red'>No se pudo insertar</h3>";
+    }
+}
+
+if(isset($_POST["actualizar2"])){
+    $usuario->setId($_POST["id"]);
+    $usuario->setUsername($_POST["username"]);
+    $usuario->setPassword($_POST["password"]);
+    $usuario->setNombres($_POST["nombres"]);
+    $usuario->setApellidos($_POST["apellidos"]);
+    if($usuario->actualizar()){
+        header("location: index.php");
+    }else{
+        echo "<h3 style='color: red'>No se pudo actualizar</h3>";
     }
 }
 

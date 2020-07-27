@@ -104,8 +104,16 @@ class Usuarios extends DBConexion
         return $resultados;
     }
 
-    public function actualizar(Usuarios $usuario){
-        return null;
+    public function actualizar(){
+        $myConn = $this->conexion();
+        $sql = "UPDATE usuarios
+                SET username = '$this->username', password = '$this->password', nombres = '$this->nombres', apellidos = '$this->apellidos'
+                WHERE id=$this->id";
+        $resultados = $myConn->query($sql);
+
+        $this->cerrar();
+
+        return $resultados;
     }
 
     public function eliminar(int $id){
