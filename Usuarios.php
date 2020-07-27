@@ -77,14 +77,44 @@ class Usuarios extends DBConexion
     public function mostrarUsuarios2(){
         //opcion 2: fetch_assoc()
         $myConn = $this->conexion();
-        echo "<h1>Opcion 1</h1>";
-        $resultados = $myConn->query("SELECT * FROM usuarios");
+        $sql = "SELECT * FROM usuarios";
+        $resultados = $myConn->query($sql);
+        $this->cerrar();
 
-        for ($i = 0; $i < $resultados->num_rows; $i++) {
-            $data = $resultados->fetch_assoc();
-            echo "id:" . $data["id"] . "<br>" .
-                "Nombres:" . $data["nombres"] . "<br>" .
-                "Apellidos:" . $data["apellidos"] . "<br>";
-        }
+        return $resultados;
+    }
+
+    public function mostrarUsuariosPorId(int $id){
+        $myConn = $this->conexion();
+        $sql = "SELECT * FROM usuarios WHERE id=$id";
+        $resultados = $myConn->query($sql);
+        $this->cerrar();
+
+        return $resultados;
+    }
+
+    public function insertar(){
+        $myConn = $this->conexion();
+        $sql = "INSERT INTO usuarios(username, password, nombres, apellidos)
+                VALUES ('$this->username', '$this->password', '$this->nombres', '$this->apellidos')";
+        $resultados = $myConn->query($sql);
+
+        $this->cerrar();
+
+        return $resultados;
+    }
+
+    public function actualizar(Usuarios $usuario){
+        return null;
+    }
+
+    public function eliminar(int $id){
+        $myConn = $this->conexion();
+        $sql = "DELETE FROM usuarios WHERE id=$id";
+        $resultados = $myConn->query($sql);
+
+        $this->cerrar();
+
+        return $resultados;
     }
 }
