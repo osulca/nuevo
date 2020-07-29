@@ -86,8 +86,12 @@ class Usuarios extends DBConexion
 
     public function mostrarUsuariosPorId(int $id){
         $myConn = $this->conexion();
-        $sql = "SELECT * FROM usuarios WHERE id=$id";
-        $resultados = $myConn->query($sql);
+        $sql = "SELECT id, username, password, nombres, apellidos FROM usuarios WHERE id=?";
+
+        $stmt = $myConn->prepare($sql);
+        $stmt->bind_param('i',$id);
+        $stmt->execute();
+        $resultados = $stmt->get_result();
         $this->cerrar();
 
         return $resultados;
@@ -96,9 +100,13 @@ class Usuarios extends DBConexion
     public function insertar(){
         $myConn = $this->conexion();
         $sql = "INSERT INTO usuarios(username, password, nombres, apellidos)
-                VALUES ('$this->username', '$this->password', '$this->nombres', '$this->apellidos')";
-        $resultados = $myConn->query($sql);
+                VALUES (?, ?, ?, ?)";
 
+        $stmt = $myConn->prepare($sql);
+        $stmt->bind_param('ssss',$this->username, $this->password, $this->nombres, $this->apellidos);
+
+        $resultados = $stmt->execute();
+        $stmt->close();
         $this->cerrar();
 
         return $resultados;
@@ -107,10 +115,14 @@ class Usuarios extends DBConexion
     public function actualizar(){
         $myConn = $this->conexion();
         $sql = "UPDATE usuarios
-                SET username = '$this->username', password = '$this->password', nombres = '$this->nombres', apellidos = '$this->apellidos'
-                WHERE id=$this->id";
-        $resultados = $myConn->query($sql);
+                SET username = ?, password = ?, nombres = ?, apellidos = ?
+                WHERE id=?";
 
+        $stmt = $myConn->prepare($sql);
+        $stmt->bind_param('ssssi',$this->username, $this->password, $this->nombres, $this->apellidos, $this->id);
+
+        $resultados = $stmt->execute();
+        $stmt->close();
         $this->cerrar();
 
         return $resultados;
@@ -118,8 +130,13 @@ class Usuarios extends DBConexion
 
     public function eliminar(int $id){
         $myConn = $this->conexion();
-        $sql = "DELETE FROM usuarios WHERE id=$id";
-        $resultados = $myConn->query($sql);
+        $sql = "DELETE FROM usuarios WHERE id=?";
+
+        $stmt = $myConn->prepare($sql);
+        $stmt->bind_param('i', $id);
+
+        $resultados = $stmt->execute();
+        $stmt->close();
 
         $this->cerrar();
 
